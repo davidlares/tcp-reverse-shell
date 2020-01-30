@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "client.py", line 49, in <module>
+  File "client.py", line 48, in main
+  File "client.py", line 25, in connect
+  File "socket.pyc", line 222, in meth
+socket.error: [Errno 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+Traceback (most recent call last):
+  File "client.py", line 49, in <module>
+  File "client.py", line 48, in main
+  File "client.py", line 34, in connect
+ValueError: need more than 1 value to unpack
+Traceback (most recent call last):
+  File "client.py", line 49, in <module>
+  File "client.py", line 48, in main
+  File "client.py", line 25, in connect
+  File "socket.pyc", line 222, in meth
+socket.error: [Errno 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión

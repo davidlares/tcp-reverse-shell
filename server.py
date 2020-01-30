@@ -7,7 +7,7 @@ import os
 # this function is for receiving the transfered file
 def transfer(conn, command):
     conn.send(command) # starting the command
-    f = open('./transfer/test.txt', 'wb') # placeholder file
+    f = open('./transfer/file', 'wb') # placeholder file
     while True:
         bits = conn.recv(1024) # getting information (1kb at the time)
         if 'Unable to find out the file' in bits:
