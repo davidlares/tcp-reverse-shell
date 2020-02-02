@@ -37,11 +37,12 @@ There's an example of the `client.exe` with the log, on the `dist` directory.
 
 ## Code actions
 
-Once the connection is made, we have 3 particular actions that we can perform.
+Once the connection is made, we have 4 particular actions that we can perform.
 
 1. `Shell> [Type your command]`. this action will output the result of executing something.
-2. `Shell> grab -f [file]`. the `grab -f` command will transfer or extract data from the target by setting a placeholder for the file. This is handled by looping a file if exists, and read the file (pieces) with 1kb top and which until reach `EoF`, after that will the written in the attacker machine
-3. `Shell> terminate`. Will close the socket connections
+2. `Shell> grab -f [file]`. The `grab -f` command will transfer or extract data from the target by setting a placeholder for the file. This is handled by looping a file if exists, and read the file (pieces) with 1kb top and which until reach `EoF`, after that will the written in the attacker machine
+3. `Shell cd [directory]`. This `cd` command will let you change the directory for work along with different OS directories without any problems. Internally the script splits the `cd` and typed directory to perform a `chdir` (change directory) in real-time
+4. `Shell> terminate`. Will close the socket connections
 
 ## Credits
 
